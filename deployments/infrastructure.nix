@@ -52,7 +52,24 @@ with (import ./../lib.nix);
         openssh.authorizedKeys.keys = devKeys;
       };
       groups.production = {};
+    };
 
+    deployment.keys.tarsnap.text = getKey ./../tarsnap-cardano-deployer.key;
+    services.tarsnap = {
+      enable = true;
+      keyfile = "/run/keys/tarsnap";
+      archives.cardano-deployer = {
+        directories = [
+          "/home/staging/.ec2-keys"
+          "/home/staging/.aws"
+          "/home/staging/.nixops"
+          "/home/production/.ec2-keys"
+          "/home/production/.aws"
+          "/home/production/testnet/live"
+          "/home/production/.nixops"
+          "/etc/"
+        ];
+      };
     };
 
     networking.firewall.allowedTCPPortRanges = [

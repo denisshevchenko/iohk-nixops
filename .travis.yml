@@ -11,6 +11,8 @@ install:
   - nixops create deployments/infrastructure.nix -d inf
   - nixops create deployments/cardano-explorer{,-ec2}.nix -d explorer-ec2
   - nixops create deployments/cardano-explorer{,-vbox}.nix -d explorer-vbox
+  - echo "secret" > tarsnap-node-0.key
+  - echo "secret" > tarsnap-cardano-deployer.key
 script:
   - ./CardanoCSL.hs --help
   - ./TimeWarp.hs --help

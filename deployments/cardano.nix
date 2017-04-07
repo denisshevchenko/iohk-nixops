@@ -33,6 +33,17 @@ let
   cardano-node-coordinator = {testIndex, region, keypair}: {resources, pkgs, ...}: {
     imports = [ (nodeGenericConfig testIndex region keypair) ];
 
+    deployment.keys.tarsnap.text = getKey ./../tarsnap-node-0.key;
+    services.tarsnap = {
+      enable = true;
+      keyfile = "/run/keys/tarsnap";
+      archives.cardano-deployer = {
+        directories = [
+          "/var/lib/cardano-node/"
+        ];
+      };
+    };
+
     services.cardano-node = {
       timeLord = true;
     };
