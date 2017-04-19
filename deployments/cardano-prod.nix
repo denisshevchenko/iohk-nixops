@@ -6,6 +6,10 @@ let
       ./../modules/datadog.nix
       ./../modules/papertrail.nix
     ];
+
+    # Initial block is big enough to hold 3 months of transactions
+    deployment.ec2.ebsInitialRootDiskSize = mkForce 700;
+
     services.dd-agent.tags = ["env:production"];
     services.dd-agent.processConfig = ''
       instances:
