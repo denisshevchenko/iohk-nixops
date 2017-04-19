@@ -6,7 +6,14 @@ let
       ./../modules/datadog.nix
       ./../modules/papertrail.nix
     ];
-    services.dd-agent.tags = ["prod"];
+    services.dd-agent.tags = ["env:production"];
+    services.dd-agent.processConfig = ''
+      instances:
+        - name: cardano-node
+          search_string: ['cardano-node']
+          thresholds:
+            critical: [1, 2]
+    '';
   };
 in {
   report-server = conf;
